@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h2 style="font-weight:700;">Upcoming Events</h2>
+        <p class="small-muted">Browse upcoming matches, concerts, and community events.</p>
+    </div>
+    <div class="col-md-6 text-md-end search-col">
+        <div class="d-flex justify-content-md-end gap-2">
+            <input id="searchInput" class="form-control search-input" placeholder="Search events (name only)..."
+                style="max-width:360px;">
+            <button id="clearSearchBtn" class="btn btn-light">Clear</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+    {% for e in events %}
+    <div class="col-lg-4 col-md-6">
+        <a class="list-link" href="{% url 'events:detail' e.pk %}">
+            <div class="card card-glass p-3 h-100 card-list-item" data-name="{{ e.name|escape }}">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <!-- Make title fully visible -->
+                        <h5 class="mb-1" style="font-weight:700; color:#ffffff;">{{ e.name }}</h5>
+                        <div class="muted">{{ e.location }}</div>
+                    </div>
+                    <div class="text-end">
+                        <div class="event-date">{{ e.event_date|date:"M d, Y" }}</div>
+                        <span class="badge badge-accent rounded-pill mt-2">Ongoing</span>
+                    </div>
+                </div>
+                <p class="muted mb-3" style="min-height:48px;">{{ e.description|truncatechars:120 }}</p>
+                <div class="d-flex justify-content-between align-items-center mt-auto">
+                    <small class="small-muted">Detail:</small>
+                    <div>
+                        <i class="bi bi-chevron-right small-muted"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    {% empty %}
+    <div class="col-12">
+        <div class="card card-glass p-4 text-center">
+            <h5>No upcoming events</h5>
+            <p class="muted">Check back later or login as admin to add events.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    ( function ()
+    {
+        const input = document.getElementById( 'searchInput' );
+        const clearBtn = document.getElementById( 'clearSearchBtn' );
+        // select all card-list-item elements
+        const cardItems = Array.from( document.querySelectorAll( '.card-list-item' ) );
+
+        function normalize ( s )
+        {
+            return ( s || '' ).toString().trim().toLowerCase();
+        }
+
+        function applyFilter ()
+        {
+            const q = normalize( input.value );
+            if ( q === '' )
+            {
+                // show all
+                cardItems.forEach( ci => ci.closest( '.col-lg-4' ).style.display = '' );
+                return;
+            }
+            cardItems.forEach( ci =>
+            {
+                const name = normalize( ci.dataset.name );
+                // substring match (includes) — this handles 'foot ' and 'foot' equally
+                if ( name.includes( q ) )
+                {
+                    ci.closest( '.col-lg-4' ).style.display = '';
+                } else
+                {
+                    ci.closest( '.col-lg-4' ).style.display = 'none';
+                }
+            } );
+        }
+
+        // immediate filter as user types
+        input.addEventListener( 'input', applyFilter );
+
+        // clear button
+        clearBtn.addEventListener( 'click', function ( e )
+        {
+            e.preventDefault();
+            input.value = '';
+            applyFilter();
+            input.focus();
+        } );
+
+        // optional: support pressing Esc to clear
+        input.addEventListener( 'keydown', function ( e )
+        {
+            if ( e.key === 'Escape' )
+            {
+                input.value = '';
+                applyFilter();
+                input.blur();
+            }
+        } );
+    } )();
+</script>
+
+{% endblock %}

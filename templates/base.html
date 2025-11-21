@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Events Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-1: #0f1724;
+            --bg-2: #071033;
+            --card: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --accent: #6ee7b7;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(110, 231, 183, 0.06), transparent 10%),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+            color: #e6eef8;
+            min-height: 100vh;
+        }
+
+        .navbar-glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .card-glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .card-glass:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(2, 6, 23, 0.8);
+        }
+
+        .badge-accent {
+            background: linear-gradient(90deg, #34d399, #6ee7b7);
+            color: #012;
+            font-weight: 600;
+        }
+
+        .muted {
+            color: #a8b3c8;
+        }
+
+        .search-input {
+            background: #ffffff !important;
+            border: 1px solid #ffffff !important;
+            color: #000000 !important;
+        }
+
+        .search-input::placeholder {
+            color: #555 !important;
+        }
+
+
+        .small-muted {
+            color: #b9c6d8;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #9fb0c8;
+            opacity: 0.9;
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            color: #cfe9dd;
+        }
+
+        a.list-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        @media (max-width:768px) {
+            .search-col {
+                order: 3;
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-glass py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="me-2 p-2 rounded-3" style="background:linear-gradient(135deg,#2dd4bf33,#60a5fa33);">
+                    <i class="bi bi-calendar-event-fill" style="font-size:1.2rem;color:var(--accent)"></i>
+                </div>
+                <div>
+                    <div style="font-weight:700; font-size:1.05rem;">Events Dashboard</div>
+                </div>
+            </a>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarsExample">
+                <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-sm" href="/admin/login/">Admin/Editor Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-4">
+        <div class="container">
+            {% block content %}{% endblock %}
+            <footer class="mt-5 text-center">
+                <small>Created using Django</small>
+            </footer>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
